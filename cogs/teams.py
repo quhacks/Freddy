@@ -1,6 +1,7 @@
-import core.data as data
-from core.util import new_id
+import core.data as data, os
+from core.util import new_id, organizer_channel
 from discord.ext import commands
+from discord import AllowedMentions
 
 class Teams(commands.Cog):
     
@@ -13,7 +14,7 @@ class Teams(commands.Cog):
 
     def find_team(self, user):
         for team in self.teams:
-            if str(user) in team['USERS']:
+            if str(user) in team['USERS'] or user == team['ID']:
                 return team
         return None
 
@@ -21,7 +22,7 @@ class Teams(commands.Cog):
     @commands.group()
     async def team(self, ctx):
         if ctx.invoked_subcommand == None:
-            await ctx.send('`[no arguments provided]`')
+            await ctx.send('Usage: `q!team create|join|leave`')
     
     @team.command()
     async def create(self, ctx, division=None, *, name=None):
@@ -52,12 +53,8 @@ class Teams(commands.Cog):
         elif not team_id:
             await ctx.send('You must specify a team id to join! You can get the id from the member who created the team.')
         else:
-            found = False
-            for team in self.teams:
-                if team['ID'] == team_id:
-                    found = True
-                    break
-            if not found:
+            team = self.find_team(team_id)
+            if not team:
                 await ctx.send('No team with that id was found. Try creating a team with the `q!team create` command.')
             elif len(team['USERS'].split('|')) >= 4:
                 await ctx.send('Sorry, that team is full! Teams can only have up to 4 members.')
@@ -82,6 +79,36 @@ class Teams(commands.Cog):
                 self.teams.remove(team)
                 await ctx.send('You have successfully left your team! Since no more members remain, the team has been deleted, and you must create a new one to rejoin.')
             self.update()
+
+    @commands.dm_only()
+    @commands.command()
+    async def ask(self, ctx, *, msg=None):
+        team = self.find_team(ctx.author.id)
+        if not team:
+            await ctx.send('You are not yet on a team!')
+        elif not msg:
+            await ctx.send('You must supply a message to send to the organizers!')
+        else:
+            channel = self.bot.get_channel(int(os.getenv('CHANNEL')))
+            team_name = team['NAME']
+            team_id = team['ID']
+            await channel.send(f'💬 **Message from <@{ctx.author.id}> of team `{team_name}` (id: `{team_id}`)**\n**' + '\~' * 31 + f'**\n{msg}', allowed_mentions=AllowedMentions(everyone=False, users=[ctx.author], roles=False))
+
+    @organizer_channel()
+    @commands.command()
+    async def message(self, ctx, team_id=None, *, msg=None):
+        team = self.find_team(team_id)
+        if not team_id:
+            await ctx.send('You must supply a team or user id to identify the recipients!')
+        elif not msg:
+            await ctx.send('You must supply a message to send to the team!')
+        elif not team:
+            await ctx.send('No team with that id could be found!')
+        else:
+            for user_id in team['USERS'].split('|'):
+                user = self.bot.get_user(int(user_id))
+                channel = user.dm_channel or await user.create_dm()
+                await channel.send(f'💬 **Message from organizers:**\n**' + '\~' * 31 + f'**\n{msg}')
 
 def setup(bot):
     bot.add_cog(Teams(bot))
