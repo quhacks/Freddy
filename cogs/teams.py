@@ -46,7 +46,7 @@ class Teams(commands.Cog):
             self.update()
         
     @team.command()
-    async def join(self, ctx, *, team_id=None):
+    async def join(self, ctx, team_id=None):
         if self.find_team(ctx.author.id):
             await ctx.send('You are already on a team! Use the `q!team leave` command if you want to switch teams.')
         elif not team_id:
