@@ -9,8 +9,7 @@ os.remove('auth.json')
 sheet = client.open_by_key(os.getenv('SHEET'))
 
 def get(name):
-    global size
-    records = sheet.worksheet(name).get_all_records()
+    records = sheet.worksheet(name).get_all_records(numericise_ignore=['all'])
     sizes[name] = len(records)
     return records
 
