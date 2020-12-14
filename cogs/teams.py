@@ -17,6 +17,7 @@ class Teams(commands.Cog):
                 return team
         return None
 
+    @commands.dm_only()
     @commands.group()
     async def team(self, ctx):
         if ctx.invoked_subcommand == None:
