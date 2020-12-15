@@ -7,3 +7,10 @@ def organizer_channel():
     async def check(ctx):
         return str(ctx.channel.id) == os.getenv('CHANNEL')
     return discord.ext.commands.check(check)
+
+def load_cog(bot, cog_name):
+    cog = bot.get_cog(cog_name)
+    if not cog:
+        raise discord.ext.commands.ExtensionNotLoaded(cog_name)
+    else:
+        return cog

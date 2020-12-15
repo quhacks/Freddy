@@ -1,7 +1,6 @@
-import core.data as data, os
-from core.util import new_id, organizer_channel
+import core.data as data
+from core.util import new_id
 from discord.ext import commands
-from discord import AllowedMentions
 
 class Teams(commands.Cog):
     
@@ -79,7 +78,7 @@ class Teams(commands.Cog):
                 self.teams.remove(team)
                 await ctx.send('You have successfully left your team! Since no more members remain, the team has been deleted, and you must create a new one to rejoin.')
             self.update()
-
+"""
     @commands.dm_only()
     @commands.command()
     async def ask(self, ctx, *, msg=None):
@@ -109,6 +108,6 @@ class Teams(commands.Cog):
                 user = self.bot.get_user(int(user_id))
                 channel = user.dm_channel or await user.create_dm()
                 await channel.send(f'💬 **Message from organizers:**\n**' + '\~' * 31 + f'**\n{msg}')
-
+"""
 def setup(bot):
     bot.add_cog(Teams(bot))

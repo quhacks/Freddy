@@ -1,4 +1,3 @@
-import core.data as data
 from core.util import organizer_channel
 from discord.ext import commands
 
