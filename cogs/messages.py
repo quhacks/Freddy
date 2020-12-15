@@ -23,23 +23,25 @@ class Messages(commands.Cog):
             channel = self.bot.get_channel(int(os.getenv('CHANNEL')))
             team_name = team['NAME']
             team_id = team['ID']
-            await channel.send(f'💬 **Message from <@{ctx.author.id}> of team `{team_name}` (id: `{team_id}`)**\n**' + '\~' * 31 + f'**\n{msg}', allowed_mentions=AllowedMentions(everyone=False, users=[ctx.author], roles=False))
+            await channel.send(f'💬 **Message from {ctx.author.mention} of team `{team_name}` (Team ID: `{team_id}`)**\n**' + '\~' * 31 + f'**\n{msg}', allowed_mentions=AllowedMentions(everyone=False, users=[ctx.author], roles=False))
+            await ctx.send(f'Message successfully delivered! The organizers will get back to you soon.')
 
     @organizer_channel()
     @commands.command()
     async def message(self, ctx, team_id=None, *, msg=None):
         team = self.find_team(team_id)
         if not team_id:
-            await ctx.send('You must supply a team or user id to identify the recipients!')
+            await ctx.send('You must supply a team or user ID to identify the recipients!')
         elif not msg:
             await ctx.send('You must supply a message to send to the team!')
         elif not team:
-            await ctx.send('No team with that id could be found!')
+            await ctx.send('No team with that ID could be found!')
         else:
             for user_id in team['USERS'].split('|'):
                 user = self.bot.get_user(int(user_id))
                 channel = user.dm_channel or await user.create_dm()
                 await channel.send(f'💬 **Message from organizers:**\n**' + '\~' * 31 + f'**\n{msg}')
+                await ctx.send(f'Message successfully delivered!')
 
 def setup(bot):
     bot.add_cog(Messages(bot))

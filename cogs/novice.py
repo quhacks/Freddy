@@ -1,5 +1,5 @@
 import os
-from core.util import organizer_channel, load_cog
+from core.util import new_id, organizer_channel, load_cog
 from discord.ext import commands
 from discord import File
 from io import BytesIO
@@ -30,12 +30,29 @@ class Novice(commands.Cog):
                 await ctx.send(f'You must upload a code file as an attachment!')
             else:
                 channel = self.bot.get_channel(int(os.getenv('CHANNEL')))
+                
                 team_name = team['NAME']
                 team_id = team['ID']
+                submission_id = new_id()
+                
                 attachment = BytesIO()
                 await ctx.message.attachments[0].save(attachment)
-                await channel.send(f'📝 **Submission from team `{team_name}` (id: `{team_id}`) to problem `{problem}`**\n**' + '\~' * 31 + f'**\n```diff\n- Needs Grading!\n```', file=File(attachment, ctx.message.attachments[0].filename))
-
+                
+                await channel.send(
+                    f'📝 **Submission for problem `{problem}` (Submission ID: `{submission_id}`)**\n' + 
+                    '**' + '\~' * 31 + '**\n' +
+                    f'Team: `{team_name}`\n' +
+                    f'Team ID: `{team_id}`\n' +
+                    f'User: {ctx.author.mention}\n' +
+                    '```diff\n' +
+                    '- Needs Grading!' +
+                    '```',
+                    file=File(attachment, ctx.message.attachments[0].filename))
+                await ctx.send(f'Submission received! We will judge your program soon. Your submission ID is `{submission_id}`.')
+    
+    #todo: assign unique submission id
+    #todo: update submission message
+    #todo: update spreadsheet
     '''
     @organizer_channel()
     @commands.command()

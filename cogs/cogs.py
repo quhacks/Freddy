@@ -1,3 +1,4 @@
+import os, discord
 from core.util import organizer_channel
 from discord.ext import commands
 
@@ -38,6 +39,13 @@ class Cogs(commands.Cog):
                 await ctx.send(f'Command group `{cog}` successfully reloaded.')
             except commands.ExtensionNotFound:
                 await ctx.send(f'Command group `{cog}` not found.')
+
+    @commands.command()
+    @organizer_channel()
+    async def restart(self, ctx):
+        await ctx.send('Restarting...')
+        for cog in [cog.replace('.py', '') for cog in os.listdir('cogs') if '.py' in cog]:
+            await self.load(ctx, cog)
 
 def setup(bot):
     bot.add_cog(Cogs(bot))
