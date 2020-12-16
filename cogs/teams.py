@@ -5,8 +5,8 @@ from discord.ext import commands
 class Teams(commands.Cog):
     
     def __init__(self, bot):
-        self.teams = data.get('TEAMS')
         self.bot = bot
+        self.teams = data.get('TEAMS')
 
     def update(self):
         data.set('TEAMS', self.teams)
@@ -39,8 +39,7 @@ class Teams(commands.Cog):
                 'ID': team_id,
                 'NAME': name,
                 'TYPE': division.upper(),
-                'USERS': str(ctx.author.id),
-                'SCORES': '0'
+                'USERS': str(ctx.author.id)
             })
             await ctx.send(f'Welcome to QuHacks 2020! Your team has been registered under the name `{name}`! Your teammates can use the following team id to join: `{team_id}`. Best of luck!')
             self.update()
@@ -78,36 +77,6 @@ class Teams(commands.Cog):
                 self.teams.remove(team)
                 await ctx.send('You have successfully left your team! Since no more members remain, the team has been deleted, and you must create a new one to rejoin.')
             self.update()
-"""
-    @commands.dm_only()
-    @commands.command()
-    async def ask(self, ctx, *, msg=None):
-        team = self.find_team(ctx.author.id)
-        if not team:
-            await ctx.send('You are not yet on a team!')
-        elif not msg:
-            await ctx.send('You must supply a message to send to the organizers!')
-        else:
-            channel = self.bot.get_channel(int(os.getenv('CHANNEL')))
-            team_name = team['NAME']
-            team_id = team['ID']
-            await channel.send(f'💬 **Message from <@{ctx.author.id}> of team `{team_name}` (id: `{team_id}`)**\n**' + '\~' * 31 + f'**\n{msg}', allowed_mentions=AllowedMentions(everyone=False, users=[ctx.author], roles=False))
 
-    @organizer_channel()
-    @commands.command()
-    async def message(self, ctx, team_id=None, *, msg=None):
-        team = self.find_team(team_id)
-        if not team_id:
-            await ctx.send('You must supply a team or user id to identify the recipients!')
-        elif not msg:
-            await ctx.send('You must supply a message to send to the team!')
-        elif not team:
-            await ctx.send('No team with that id could be found!')
-        else:
-            for user_id in team['USERS'].split('|'):
-                user = self.bot.get_user(int(user_id))
-                channel = user.dm_channel or await user.create_dm()
-                await channel.send(f'💬 **Message from organizers:**\n**' + '\~' * 31 + f'**\n{msg}')
-"""
 def setup(bot):
     bot.add_cog(Teams(bot))

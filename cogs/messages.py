@@ -11,6 +11,12 @@ class Messages(commands.Cog):
     def find_team(self, user):
         return load_cog(self.bot, 'Teams').find_team(user)
 
+    async def broadcast(self, team, msg):
+        for user_id in team['USERS'].split('|'):
+            user = self.bot.get_user(int(user_id))
+            channel = user.dm_channel or await user.create_dm()
+            await channel.send(msg)
+
     @commands.dm_only()
     @commands.command()
     async def ask(self, ctx, *, msg=None):
@@ -37,11 +43,11 @@ class Messages(commands.Cog):
         elif not team:
             await ctx.send('No team with that ID could be found!')
         else:
-            for user_id in team['USERS'].split('|'):
-                user = self.bot.get_user(int(user_id))
-                channel = user.dm_channel or await user.create_dm()
-                await channel.send(f'💬 **Message from organizers:**\n**' + '\~' * 31 + f'**\n{msg}')
-                await ctx.send(f'Message successfully delivered!')
+            await self.broadcast(team,
+                '💬 **Message from organizers:**\n' +
+                '**' + '\~' * 31 + '**\n'+
+                msg)
+            await ctx.send(f'Message successfully delivered!')
 
 def setup(bot):
     bot.add_cog(Messages(bot))
