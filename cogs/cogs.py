@@ -13,15 +13,15 @@ class Cogs(commands.Cog):
         if not cog:
             await ctx.send(f'You must specify a command group to unload!')
         elif len([i for i in cog if i.isalpha()]) != len(cog):
-            await ctx.send(f'Command group names can only contain letters.')
+            await ctx.send(f'Command group names can only contain letters!')
         else:
             try:
                 self.bot.unload_extension(f'cogs.{cog}')
-                await ctx.send(f'Command group `{cog}` successfully unloaded.')
+                await ctx.send(f'Command group `{cog}` successfully unloaded!')
             except commands.ExtensionNotLoaded:
-                await ctx.send(f'Command group `{cog}` has not yet been loaded.')
+                await ctx.send(f'Command group `{cog}` has not yet been loaded!')
             except commands.ExtensionNotFound:
-                await ctx.send(f'Command group `{cog}` not found.')
+                await ctx.send(f'Command group `{cog}` not found!')
     
     @organizer_channel()
     @commands.command()
@@ -29,16 +29,16 @@ class Cogs(commands.Cog):
         if not cog:
             await ctx.send(f'You must specify a command group to unload!')
         elif len([i for i in cog if i.isalpha()]) != len(cog):
-            await ctx.send(f'Command group names can only contain letters.')
+            await ctx.send(f'Command group names can only contain letters!')
         else:
             try:
                 self.bot.load_extension(f'cogs.{cog}')
-                await ctx.send(f'Command group `{cog}` successfully loaded.')
+                await ctx.send(f'Command group `{cog}` successfully loaded!')
             except commands.ExtensionAlreadyLoaded:
                 self.bot.reload_extension(f'cogs.{cog}')
-                await ctx.send(f'Command group `{cog}` successfully reloaded.')
+                await ctx.send(f'Command group `{cog}` successfully reloaded!')
             except commands.ExtensionNotFound:
-                await ctx.send(f'Command group `{cog}` not found.')
+                await ctx.send(f'Command group `{cog}` not found!')
 
     @organizer_channel()
     @commands.command()

@@ -1,5 +1,5 @@
 import core.data as data
-from core.util import new_id
+from core.util import new_id, load_cog
 from discord.ext import commands
 
 class Teams(commands.Cog):
@@ -16,6 +16,9 @@ class Teams(commands.Cog):
             if str(user) in team['USERS'] or user == team['ID']:
                 return team
         return None
+
+    def broadcast(self, team, msg, skip=None):
+        return load_cog(self.bot, 'Messages').broadcast(team, msg, skip)
 
     @commands.dm_only()
     @commands.group()
@@ -53,7 +56,7 @@ class Teams(commands.Cog):
                 'TYPE': division.upper(),
                 'USERS': str(ctx.author.id)
             })
-            await ctx.send(f'Welcome to QuHacks 2020! Your team has been registered under the name `{name}`! Your teammates can use the following team id to join: `{team_id}`. Best of luck!')
+            await ctx.send(f'Welcome to QuHacks 2020! Your team has been registered under the name `{name}`! Your teammates can use the following team ID to join: `{team_id}`. Best of luck!')
             self.update()
         
     @team.command()
@@ -61,18 +64,20 @@ class Teams(commands.Cog):
         if self.find_team(ctx.author.id):
             await ctx.send('You are already on a team! Use the `q!team leave` command if you want to switch teams.')
         elif not team_id:
-            await ctx.send('You must specify a team id to join! You can get the id from the member who created the team.')
+            await ctx.send('You must specify a team ID to join! You can get the ID from the member who created the team.')
         else:
             team = self.find_team(team_id)
             if not team:
-                await ctx.send('No team with that id was found. Try creating a team with the `q!team create` command.')
+                await ctx.send('No team with that IO was found. Try creating a team with the `q!team create` command.')
             elif len(team['USERS'].split('|')) >= 4:
                 await ctx.send('Sorry, that team is full! Teams can only have up to 4 members.')
             else:
                 team['USERS'] += f'|{ctx.author.id}'
                 name = team['NAME']
-                await ctx.send(f'Welcome to QuHacks 2020! You have successfully joined the team `{name}`. Best of luck!')
                 self.update()
+                
+                await self.broadcast(team, f'{ctx.author.mention} has just joined your team!', ctx.author.id)
+                await ctx.send(f'Welcome to QuHacks 2020! You have successfully joined the team `{name}`. Use the `q!team` command to see more. Best of luck!')
     
     @team.command()
     async def leave(self, ctx):
@@ -84,11 +89,16 @@ class Teams(commands.Cog):
             users.remove(str(ctx.author.id))
             if len(users) > 0:
                 team['USERS'] = '|'.join(users)
+                self.update()
+
+                await self.broadcast(team, f'{ctx.author.mention} has just left your team!', ctx.author.id)
                 await ctx.send('You have successfully left your team. Make sure to create or join a new team to participate in QuHacks 2020!')
             else:
                 self.teams.remove(team)
+                self.update()
+
                 await ctx.send('You have successfully left your team! Since no more members remain, the team has been deleted, and you must create a new one to rejoin.')
-            self.update()
+            
 
 def setup(bot):
     bot.add_cog(Teams(bot))

@@ -33,8 +33,8 @@ class Novice(commands.Cog):
     def find_team(self, user):
         return load_cog(self.bot, 'Teams').find_team(user)
 
-    def broadcast(self, team, msg):
-        return load_cog(self.bot, 'Messages').broadcast(team, msg)
+    def broadcast(self, team, msg, skip=None):
+        return load_cog(self.bot, 'Messages').broadcast(team, msg, skip)
 
     @commands.dm_only()
     @commands.command()
@@ -79,9 +79,9 @@ class Novice(commands.Cog):
                         'VERDICT': '-'
                     })
                     self.update()
-
+                    
                     await ctx.send(f'Submission received! We will judge your program soon. Your submission ID is `{submission_id}`.')
-    
+                    await self.broadcast(team, f'{ctx.author.mention} sent a submission (Submission ID: `{submission_id}`) to problem `{problem}`.', ctx.author.id)
     
     @organizer_channel()
     @commands.command()
@@ -118,7 +118,7 @@ class Novice(commands.Cog):
             pieces[1] = f'diff\n+ Verdict: {verdict.upper()}\n'
             await message.edit(content='```'.join(pieces))
 
-            await ctx.send('Verdict successfully submitted.')
+            await ctx.send('Verdict successfully submitted!')
 
 def setup(bot):
     bot.add_cog(Novice(bot))

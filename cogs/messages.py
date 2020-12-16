@@ -11,8 +11,10 @@ class Messages(commands.Cog):
     def find_team(self, user):
         return load_cog(self.bot, 'Teams').find_team(user)
 
-    async def broadcast(self, team, msg):
+    async def broadcast(self, team, msg, skip=None):
         for user_id in team['USERS'].split('|'):
+            if user_id == str(skip):
+                continue
             user = self.bot.get_user(int(user_id))
             channel = user.dm_channel or await user.create_dm()
             await channel.send(msg)

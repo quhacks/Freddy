@@ -7,13 +7,12 @@ bot = commands.Bot(command_prefix='q!', intents=intents, help_command=None)
 
 @bot.event
 async def on_ready():
+    await bot.change_presence(activity=discord.Game(name='loading cogs...'))
     for cog in [cog.replace('.py', '') for cog in os.listdir('cogs') if '.py' in cog]:
-        await bot.change_presence(activity=discord.Game(name=f'loading cogs.{cog}...'))
         print(f'Loading cogs.{cog}...')
         try:
             bot.load_extension(f'cogs.{cog}')
         except Exception as e:
-            await bot.change_presence(activity=discord.Game(name=f'error loading cogs.{cog}!'))
             print(f'Error loading cogs.{cog}!')
             raise e
     print('FreddyBot is running!')
