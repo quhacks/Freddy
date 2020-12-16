@@ -106,8 +106,12 @@ class Novice(commands.Cog):
             await self.broadcast(team,
                 f'⚖ **Verdict on submission `{submission_id}` to problem `{problem}`:**\n' +
                 '**' + '\~' * 31 + '**\n' +
-                (self.compile[1] if verdict.upper() == self.compile[0]
-                else '\n'.join([f'**`Test {k}:`** {self.verdicts[v.upper()]}' for k, v in enumerate(verdict)])))
+                (
+                    self.compile[1] 
+                    if verdict.upper() == self.compile[0] else
+                    '\n'.join([f'**`Test {k}:`** {self.verdicts[v.upper()]}' for k, v in enumerate(verdict)])
+                )
+            )
             
             message = await self.channel.fetch_message(submission['MESSAGE'])
             pieces = message.content.split('```')

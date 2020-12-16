@@ -7,8 +7,8 @@ class Cogs(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
     @organizer_channel()
+    @commands.command()
     async def unload(self, ctx, cog=None):
         if not cog:
             await ctx.send(f'You must specify a command group to unload!')
@@ -23,8 +23,8 @@ class Cogs(commands.Cog):
             except commands.ExtensionNotFound:
                 await ctx.send(f'Command group `{cog}` not found.')
     
-    @commands.command()
     @organizer_channel()
+    @commands.command()
     async def load(self, ctx, cog=None):
         if not cog:
             await ctx.send(f'You must specify a command group to unload!')
@@ -40,8 +40,8 @@ class Cogs(commands.Cog):
             except commands.ExtensionNotFound:
                 await ctx.send(f'Command group `{cog}` not found.')
 
-    @commands.command()
     @organizer_channel()
+    @commands.command()
     async def restart(self, ctx):
         await ctx.send('Restarting...')
         for cog in [cog.replace('.py', '') for cog in os.listdir('cogs') if '.py' in cog]:

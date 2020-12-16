@@ -21,8 +21,20 @@ class Teams(commands.Cog):
     @commands.group()
     async def team(self, ctx):
         if ctx.invoked_subcommand == None:
-            await ctx.send('Usage: `q!team create|join|leave`')
-    
+            team = self.find_team(ctx.author.id)
+            if team:
+                division = team['TYPE'][0] + team['TYPE'][1:].lower()
+                name = team['NAME']
+                team_id = team['ID']
+                message = (
+                    f'You are registered to compete in the {division} Division with the team `{name}` (Team ID: `{team_id}`). Use the `q!team leave` command to remove yourself from this team.\n' +
+                    '**Team Members:**\n' +
+                    '\n'.join([f'- <@{user}>' for user in team['USERS'].split('|')])
+                )
+            else:
+                message = 'You are not yet registered for QuHacks 2020! Use the `q!team create` command to register a new team or the `q!team join` command to join an already existing team.'
+            await ctx.send(message)
+
     @team.command()
     async def create(self, ctx, division=None, *, name=None):
         if self.find_team(ctx.author.id):

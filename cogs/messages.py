@@ -46,7 +46,8 @@ class Messages(commands.Cog):
             await self.broadcast(team,
                 '💬 **Message from organizers:**\n' +
                 '**' + '\~' * 31 + '**\n'+
-                msg)
+                msg
+            )
             await ctx.send(f'Message successfully delivered!')
 
 def setup(bot):
