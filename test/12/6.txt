@@ -1,0 +1,46 @@
+39
+artery
+avenue
+boulevard
+course
+drive
+expressway
+highway
+lane
+line
+parking lot
+pathway
+pavement
+roadway
+route
+street
+subway
+thoroughfare
+track
+trail
+way
+alley
+asphalt
+byway
+cobblestone
+concrete
+crossroad
+direction
+drag
+parkway
+passage
+pike
+terrace
+throughway
+thruway
+turnpike
+viaduct
+back street
+dragway
+main drag
+5
+road
+street
+boulevard
+avenue
+parkway

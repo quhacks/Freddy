@@ -1,0 +1,8 @@
+4
+Mask 1
+BigMask 10
+ReallyBigMask 100
+Bedsheet 1000
+2
+Bedsheet 1
+Mask 1000

@@ -1,0 +1,7 @@
+2
+Fun 100
+Games 150
+3
+Fun 1
+Games 1
+Fun 1

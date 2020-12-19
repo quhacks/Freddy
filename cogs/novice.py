@@ -9,7 +9,6 @@ class Novice(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.channel = self.bot.get_channel(int(os.getenv('NOV_CHANNEL')))
-        self.problems = 26
         self.tests = 10
         self.submissions = data.get('SUBMISSIONS')
         self.verdicts = {
@@ -43,13 +42,14 @@ class Novice(commands.Cog):
         if not team:
             await ctx.send('You are not yet on a team!')
         else:
+            problems = len(os.listdir('test'))
             try:
                 problem = int(problem)
             except:
                 await ctx.send('You must choose a problem number to submit to!')
             else:
-                if not 0 <= problem <= self.problems:
-                    await ctx.send(f'Invalid problem number! Valid problem numbers range from 0 to {self.problems}.')
+                if not 0 <= problem <= problems:
+                    await ctx.send(f'Invalid problem number! Valid problem numbers range from 0 to {problems}.')
                 elif not ctx.message.attachments:
                     await ctx.send(f'You must upload a code file as an attachment!')
                 else:

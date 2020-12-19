@@ -1,0 +1,11 @@
+4
+Apples 10
+Bananas 20
+Cherries 30
+Dates 40
+5
+Apples 2
+Dates 1
+Bananas 2
+Apples 1
+Apples 2

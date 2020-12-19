@@ -1,0 +1,11 @@
+1
+Candy 4
+8
+Candy 1
+Candy 5
+Candy 9
+Candy 10
+Candy 27
+Candy 102
+Candy 1902
+Candy 29031

@@ -1,5 +1,3 @@
-import os, discord
-from core.util import organizer_channel
 from discord.ext import commands
 
 class Help(commands.Cog):
@@ -22,6 +20,7 @@ class Help(commands.Cog):
             'q!team leave :: removes you from your team\n' +
             'q!ask <message> :: sends a message to the organizers\n' +
             'q!submit <problem> :: submits the code file attached to the message for judging\n' +
+            'q!test <problem> <test> :: shows the input for the specified test case'
             '```'
         )
     

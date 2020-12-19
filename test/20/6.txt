@@ -1,0 +1,25 @@
+15
+apple 1
+banana 1
+apple 2
+cherry 1
+apple 3
+banana 2
+apple 4
+date 1
+apple 5
+banana 3
+apple 6
+cherry 2
+apple 7
+banana 4
+apple 8
+8
+date 8
+apple 8
+cherry 1
+banana 1
+banana 2
+apple 8
+apple 1
+date 1
