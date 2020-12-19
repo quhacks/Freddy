@@ -9,7 +9,7 @@ class Teams(commands.Cog):
         self.teams = data.get('TEAMS')
 
     def update(self):
-        data.set('TEAMS', self.teams)
+        data.set('TEAMS', self.teams, ['ID', 'NAME', 'TYPE', 'USERS'])
 
     def find_team(self, user):
         for team in self.teams:
