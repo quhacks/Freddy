@@ -8,7 +8,7 @@ class Novice(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
-        self.channel = self.bot.get_channel(int(os.getenv('CHANNEL')))
+        self.channel = self.bot.get_channel(int(os.getenv('NOV_CHANNEL')))
         self.problems = 26
         self.tests = 10
         self.submissions = data.get('SUBMISSIONS')

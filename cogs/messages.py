@@ -7,6 +7,7 @@ class Messages(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
+        self.channel = self.bot.get_channel(int(os.getenv('MSG_CHANNEL')))
 
     def find_team(self, user):
         return load_cog(self.bot, 'Teams').find_team(user)
@@ -28,10 +29,9 @@ class Messages(commands.Cog):
         elif not msg:
             await ctx.send('You must supply a message to send to the organizers!')
         else:
-            channel = self.bot.get_channel(int(os.getenv('CHANNEL')))
             team_name = team['NAME']
             team_id = team['ID']
-            await channel.send(f'💬 **Message from {ctx.author.mention} of team `{team_name}` (Team ID: `{team_id}`)**\n**' + '\~' * 31 + f'**\n{msg}', allowed_mentions=AllowedMentions(everyone=False, users=[ctx.author], roles=False))
+            await self.channel.send(f'💬 **Message from {ctx.author.mention} of team `{team_name}` (Team ID: `{team_id}`)**\n**' + '\~' * 31 + f'**\n{msg}', allowed_mentions=AllowedMentions(everyone=False, users=[ctx.author], roles=False))
             await ctx.send(f'Message successfully delivered! The organizers will get back to you soon.')
 
     @organizer_channel()

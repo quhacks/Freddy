@@ -5,7 +5,7 @@ def new_id():
 
 def organizer_channel():
     async def check(ctx):
-        return str(ctx.channel.id) == os.getenv('CHANNEL')
+        return str(ctx.channel.id) in (os.getenv('NOV_CHANNEL'), os.getenv('MSG_CHANNEL'))
     return discord.ext.commands.check(check)
 
 def load_cog(bot, cog_name):
