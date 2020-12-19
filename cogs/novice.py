@@ -41,6 +41,8 @@ class Novice(commands.Cog):
         team = self.find_team(ctx.author.id)
         if not team:
             await ctx.send('You are not yet on a team!')
+        elif team['TYPE'] != 'NOVICE':
+            await ctx.send('Your team is not registered to compete in the Novice Division!')
         else:
             problems = len(os.listdir('test'))
             try:
