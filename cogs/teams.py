@@ -68,7 +68,7 @@ class Teams(commands.Cog):
         else:
             team = self.find_team(team_id)
             if not team:
-                await ctx.send('No team with that IO was found. Try creating a team with the `q!team create` command.')
+                await ctx.send('No team with that ID was found. Try creating a team with the `q!team create` command.')
             elif len(team['USERS'].split('|')) >= 4:
                 await ctx.send('Sorry, that team is full! Teams can only have up to 4 members.')
             else:
