@@ -55,6 +55,8 @@ class Novice(commands.Cog):
                 elif not ctx.message.attachments:
                     await ctx.send(f'You must upload a code file as an attachment!')
                 else:
+                    return await ctx.send(f'The submission deadline has passed!')
+                    
                     team_name = team['NAME']
                     team_id = team['ID']
                     submission_id = new_id()
@@ -68,7 +70,7 @@ class Novice(commands.Cog):
                         'TEAM': team_id,
                         'USER': str(ctx.author.id),
                         'MESSAGE': str((await self.channel.send(
-                            f'📝 **Submission for problem `{problem}` (Submission ID: `{submission_id}`)**\n' + 
+                            f'📝 **Submission for problem `{problem}` (Submission ID: `{submission_id}`):**\n' + 
                             '**' + '\~' * 31 + '**\n' +
                             f'Team: `{team_name}`\n' +
                             f'Team ID: `{team_id}`\n' +

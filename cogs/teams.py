@@ -85,6 +85,7 @@ class Teams(commands.Cog):
         if not team:
             await ctx.send('You are not yet on a team!')
         else:
+            return await ctx.send('You cannot leave your team now!')
             users = team['USERS'].split('|')
             users.remove(str(ctx.author.id))
             if len(users) > 0:

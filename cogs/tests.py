@@ -14,7 +14,7 @@ class Tests(commands.Cog):
         except:
             await ctx.send('You must choose a problem number to receive a test case for!')
         else:
-            problems = os.listdir('test')
+            problems = sorted(os.listdir('test'))
             if not 0 < problem <= len(problems):
                 await ctx.send(f'Invalid problem number! Valid problem numbers range from 1 to {len(problems)}.')        
             else:
@@ -23,7 +23,7 @@ class Tests(commands.Cog):
                 except:
                     await ctx.send('You must choose a test case number to receive!')
                 else:
-                    tests = os.listdir(f'test/{problems[problem - 1]}')
+                    tests = sorted(os.listdir(f'test/{problems[problem - 1]}'))
                     if not 0 <= test < len(tests):
                         await ctx.send(f'Invalid test case number! Valid test case numbers range from 0 to {len(tests) - 1}.')
                     else:

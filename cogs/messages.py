@@ -31,7 +31,18 @@ class Messages(commands.Cog):
         else:
             team_name = team['NAME']
             team_id = team['ID']
-            await self.channel.send(f'💬 **Message from {ctx.author.mention} of team `{team_name}` (Team ID: `{team_id}`)**\n**' + '\~' * 31 + f'**\n{msg}', allowed_mentions=AllowedMentions(everyone=False, users=[ctx.author], roles=False))
+            await self.channel.send(
+                f'💬 **Message from {ctx.author.mention} of team `{team_name}` (Team ID: `{team_id}`):**\n' +
+                '**' + '\~' * 31 + f'**\n' +
+                msg, 
+                allowed_mentions=AllowedMentions(everyone=False, users=[ctx.author], roles=False)
+            )
+            await self.broadcast(team,
+                f'💬 **Message from {ctx.author.mention} to organizers:**\n' +
+                '**' + '\~' * 31 + f'**\n' +
+                msg,
+                ctx.author.id
+            )
             await ctx.send(f'Message successfully delivered! The organizers will get back to you soon.')
 
     @organizer_channel()
@@ -47,7 +58,7 @@ class Messages(commands.Cog):
         else:
             await self.broadcast(team,
                 '💬 **Message from organizers:**\n' +
-                '**' + '\~' * 31 + '**\n'+
+                '**' + '\~' * 31 + '**\n' +
                 msg
             )
             await ctx.send(f'Message successfully delivered!')
