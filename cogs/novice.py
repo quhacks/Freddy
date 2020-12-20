@@ -55,7 +55,6 @@ class Novice(commands.Cog):
                 elif not ctx.message.attachments:
                     await ctx.send(f'You must upload a code file as an attachment!')
                 else:
-                    return await ctx.send(f'The submission deadline has passed!')
                     
                     team_name = team['NAME']
                     team_id = team['ID']
