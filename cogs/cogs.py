@@ -1,4 +1,4 @@
-import os, discord
+import os
 from core.util import organizer_channel
 from discord.ext import commands
 

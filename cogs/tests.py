@@ -30,4 +30,5 @@ class Tests(commands.Cog):
                         await ctx.send(file=discord.File(f'test/{problems[problem - 1]}/{tests[test]}'))
 
 def setup(bot):
+    return # DISABLED
     bot.add_cog(Tests(bot))

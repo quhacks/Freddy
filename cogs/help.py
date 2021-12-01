@@ -9,8 +9,8 @@ class Help(commands.Cog):
     @commands.command()
     async def help(self, ctx):
         await ctx.send(
-            '**Welcome to QuHacks 2020!**\n' +
-            'All FreddyBot commands are only usable in this direct message channel. If a command is followed by `<arguments>`, fill in the additional info in the same message (e.g. `q!team create Advanced Freddy\'s Team`).\n' +
+            '**Welcome to QuHacks 2021!**\n' +
+            'All FreddyBot commands are only usable in this direct message channel. If a command is followed by `<arguments>`, fill in the additional info in the same message (e.g. `q!team create Project Freddy\'s Team`).\n' +
             '```asciidoc\n' +
             '= Command List =\n' +
             'q!help :: displays this command\n' +
@@ -19,8 +19,8 @@ class Help(commands.Cog):
             'q!team join <id> :: adds you to the specified team\n' +
             'q!team leave :: removes you from your team\n' +
             'q!ask <message> :: sends a message to the organizers\n' +
-            'q!submit <problem> :: submits the code file attached to the message for judging\n' +
-            'q!test <problem> <test> :: shows the input for the specified test case'
+            # DISABLED 'q!submit <problem> :: submits the code file attached to the message for judging\n' +
+            # DISABLED 'q!test <problem> <test> :: shows the input for the specified test case'
             '```'
         )
     

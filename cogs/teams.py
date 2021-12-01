@@ -35,15 +35,15 @@ class Teams(commands.Cog):
                     '\n'.join([f'- <@{user}>' for user in team['USERS'].split('|')])
                 )
             else:
-                message = 'You are not yet registered for QuHacks 2020! Use the `q!team create` command to register a new team or the `q!team join` command to join an already existing team.'
+                message = 'You are not yet registered for QuHacks 2021! Use the `q!team create` command to register a new team or the `q!team join` command to join an already existing team.'
             await ctx.send(message)
 
     @team.command()
     async def create(self, ctx, division=None, *, name=None):
         if self.find_team(ctx.author.id):
             await ctx.send('You are already on a team! Use the `q!team leave` command if you want to switch teams.')
-        elif not division or division.upper() not in ['ADVANCED', 'NOVICE']:
-            await ctx.send('You must specify which division (`Novice` or `Advanced`) you wish to enter!')
+        elif not division or division.upper() not in ['PROJECT', 'BEGINNER']:
+            await ctx.send('You must specify which division (`Project` or `Beginner`) you wish to enter!')
         elif not name:
             await ctx.send('You must specify a team name!')
         elif '`' in name:
@@ -56,7 +56,7 @@ class Teams(commands.Cog):
                 'TYPE': division.upper(),
                 'USERS': str(ctx.author.id)
             })
-            await ctx.send(f'Welcome to QuHacks 2020! Your team has been registered under the name `{name}`! Your teammates can use the following team ID to join: `{team_id}`. Best of luck!')
+            await ctx.send(f'Welcome to QuHacks 2021! Your team has been registered under the name `{name}`! Your teammates can use the following team ID to join: `{team_id}`. Best of luck!')
             self.update()
         
     @team.command()
@@ -69,15 +69,15 @@ class Teams(commands.Cog):
             team = self.find_team(team_id)
             if not team:
                 await ctx.send('No team with that ID was found. Try creating a team with the `q!team create` command.')
-            elif len(team['USERS'].split('|')) >= 4:
-                await ctx.send('Sorry, that team is full! Teams can only have up to 4 members.')
+            elif len(team['USERS'].split('|')) >= 5:
+                await ctx.send('Sorry, that team is full! Teams can only have up to 5 members.')
             else:
                 team['USERS'] += f'|{ctx.author.id}'
                 name = team['NAME']
                 self.update()
                 
                 await self.broadcast(team, f'{ctx.author.mention} has just joined your team!', ctx.author.id)
-                await ctx.send(f'Welcome to QuHacks 2020! You have successfully joined the team `{name}`. Use the `q!team` command to see more. Best of luck!')
+                await ctx.send(f'Welcome to QuHacks 2021! You have successfully joined the team `{name}`. Use the `q!team` command to see more. Best of luck!')
     
     @team.command()
     async def leave(self, ctx):
@@ -92,7 +92,7 @@ class Teams(commands.Cog):
                 self.update()
 
                 await self.broadcast(team, f'{ctx.author.mention} has just left your team!', ctx.author.id)
-                await ctx.send('You have successfully left your team. Make sure to create or join a new team to participate in QuHacks 2020!')
+                await ctx.send('You have successfully left your team. Make sure to create or join a new team to participate in QuHacks 2021!')
             else:
                 self.teams.remove(team)
                 self.update()

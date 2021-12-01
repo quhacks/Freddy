@@ -124,4 +124,5 @@ class Novice(commands.Cog):
             await ctx.send('Verdict successfully submitted!')
 
 def setup(bot):
+    return # DISABLED
     bot.add_cog(Novice(bot))
